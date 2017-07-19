@@ -57,7 +57,7 @@ neuron_params= {"C_m"       : 1.,
 """
 External input
 """
-ext = nest.Create("dc_generator", params={"amplitude":13.})
+ext = nest.Create("dc_generator", params={"amplitude":2.})
 
 """
 Recorders
@@ -84,9 +84,10 @@ with the in-degree. Finally just make both broader. Write your code such that
 you can switch easily from one option to the other. Look in the exercise sheet 
 for hints if you need.
 """
+syn_dict={"weight":-ji}
+conn_dict = {'rule': 'fixed_outdegree', 'outdegree': c_ii}
 
-
-
+nest.Connect(inh,inh, conn_spec=conn_dict, syn_spec=syn_dict)
 """
 Connect external drive
 """
@@ -135,7 +136,7 @@ Please note that svi,tvi,pvi have been already converted into numpy arrays.
 
 """
 pylab.figure()
-
+pylab.plot(ti,si,'.')
 
 pylab.xlabel("time(ms)", fontsize=30)
 pylab.ylabel("potential(mV)", fontsize=30)
