@@ -51,7 +51,10 @@ extentY = 1.
 wrapped = True
 
 #layer parameters
-layer_dict = {"extent"      : [extentX, extentY],
+ex_layer_dict = {"extent"      : [extentX, extentY],
+              "edge_wrap"   : wrapped}
+
+in_layer_dict = {"extent"      : [extentX, extentY],
               "edge_wrap"   : wrapped}
 
 #connection parameters
@@ -104,12 +107,15 @@ The following code distributes the neurons randomly across the layer.
 
 ex_pos = [[np.random.uniform(-extentX / 2., extentX / 2.),\
            np.random.uniform(-extentY / 2., extentY / 2.)] for j in xrange(ne)]
-layer_dict.update({"positions": ex_pos,"elements":"exc"})
+ex_layer_dict.update({"positions": ex_pos,"elements":"exc"})
+
+
 in_pos = [[np.random.uniform(-extentX / 2., extentX / 2.),\
            np.random.uniform(-extentY / 2., extentY / 2.)] for j in xrange(ni)]
-layer_dict.update({"positions": in_pos, "elements":"inh"})
-
-
+in_layer_dict.update({"positions": in_pos, "elements":"inh"})
+#width of the kernel
+sigma=0.127
+print in_layer_dict
 """
 Write your code here
 --------------------
@@ -159,7 +165,7 @@ Connect to recorders
 nest.Connect(excNeurons, sd,"all_to_all",
              syn_spec={"weight":1.0, "delay":1.0})
             
-nest.DivergentConnect(vm, excNeurons, "all_to_all",
+nest.Connect(vm, excNeurons, "all_to_all",
              syn_spec={"weight":1.0, "delay":1.0})
              
 
